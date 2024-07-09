@@ -76,11 +76,11 @@ jobs:
           CC: clang
           CXX: clang++
           GTEST_ROOT: D:\a\gtest
-          MKLROOT: C:\hostedtoolcache\windows\Python\3.12.3\x64\Library
-          OMPROOT: C:\hostedtoolcache\windows\Python\3.12.3\x64\Library
+          MKLROOT: ${Python_ROOT_DIR}\Library
+          OMPROOT: ${Python_ROOT_DIR}\Library
         run: |
-          Get-ChildItem -Path "C:\hostedtoolcache\windows\Python\3.12.3\x64\Library\lib"
-          Get-Content -Path "C:\hostedtoolcache\windows\Python\3.12.3\x64\Lib\site-packages\intel_openmp-2024.1.0.dist-info\RECORD"
+          Get-ChildItem -Path "${Python_ROOT_DIR}\Library\lib"
+          Get-Content -Path "${Python_ROOT_DIR}\Lib\site-packages\intel_openmp-2024.1.0.dist-info\RECORD"
           mkdir build_test
           cd build_test
           cmake --version
