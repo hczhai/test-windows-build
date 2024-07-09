@@ -37,6 +37,9 @@ jobs:
 
       - name: Set up Clang
         uses: egor-tensin/setup-clang@v1
+        with:
+          version: latest
+          platform: x64
       
       - name: Download OpenBLAS
         if: matrix.os == 'windows-latest'
