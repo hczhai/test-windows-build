@@ -24,13 +24,26 @@
 using namespace std;
 using namespace block2;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     cout << "ok1" << endl;
     shared_ptr<VectorAllocator<double>> d_alloc = make_shared<VectorAllocator<double>>();
     GMatrix<double> mat(nullptr, 5, 5);
     mat.data = d_alloc->allocate(mat.size());
     Random::fill<double>(mat.data, mat.size());
-    cout << mat << endl;
+    cout << "1:" << mat << endl;
+
+    GMatrix<double> mat2(nullptr, 5, 5);
+    mat2.data = d_alloc->allocate(mat2.size());
+    Random::fill<double>(mat2.data, mat2.size());
+    cout << "2:" << mat2 << endl;
+
+    GMatrix<double> mat3(nullptr, 5, 5);
+    mat3.data = d_alloc->allocate(mat3.size());
+    Random::fill<double>(mat3.data, mat3.size());
+    cout << "3:" << mat3 << endl;
+
+    GMatrixFunctions<double>::multiply(mat, 0, mat2, 0, mat3, 1.0, 0.0);
     cout << "ok2" << endl;
     cout << SU2() << endl;
     return 0;
