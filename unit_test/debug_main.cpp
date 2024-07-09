@@ -24,6 +24,16 @@
 using namespace std;
 using namespace block2;
 
+extern "C" {
+
+extern void dgemm(const char *transa, const char *transb,
+                        const long long int *m, const long long int *n, const long long int *k,
+                        const double *alpha, const double *a,
+                        const long long int *lda, const double *b,
+                        const long long int *ldb, const double *beta, double *c,
+                        const long long int *ldc) noexcept;
+}
+
 int main(int argc, char *argv[])
 {
     cout << "ok1" << endl;
@@ -42,6 +52,17 @@ int main(int argc, char *argv[])
     mat3.data = d_alloc->allocate(mat3.size());
     Random::fill<double>(mat3.data, mat3.size());
     cout << "3:" << mat3 << endl;
+
+    cout << sizeof(long long int) << endl;
+    long long int nx = 5;
+    double alpha = 1.0, beta = 0.0;
+
+    dgemm("n", "n", &nx, &nx, &nx, &alpha, mat.data,
+                        &nx, mat2.data,
+                        &nx, &beta, mat3.data,
+                        &nx);
+
+    cout << "f:" << mat3 << endl;
 
     // GMatrixFunctions<double>::multiply(mat, 0, mat2, 0, mat3, 1.0, 0.0);
     cout << "ok2" << endl;
