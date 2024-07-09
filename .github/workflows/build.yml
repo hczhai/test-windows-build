@@ -58,8 +58,11 @@ jobs:
               mkl_serv_intel_cpu_true
           "@
           clang -c -o fixcpu.o fixcpu.c
+          echo 1
           llvm-dlltool -d libfixcpu.def -l libfixcpu.lib
-          lld-link -dll -out:libfixcpu.dll fixcpu.o libfixcpu.lib -entry:DllMainCRTStartup
+          echo 2
+          lld-link -dll -out:libfixcpu.dll fixcpu.o libfixcpu.lib
+          echo 3
           # lld-link -dll -out:libfixcpu.dll -implib:libfixcpu.lib fixcpu.o
           # dlltool --dllname libfixcpu.dll --input-def libfixcpu.def --output-lib libfixcpu.lib
           New-Item -Path "D:\a\fixcpu" -ItemType Directory
