@@ -83,7 +83,7 @@ jobs:
           # Get-ChildItem -Path "${env:Python_ROOT_DIR}\Library\lib"
           # Get-Content -Path "${env:Python_ROOT_DIR}\Lib\site-packages\intel_openmp-2024.1.0.dist-info\RECORD"
           # ${env:MKLROOT} = "${env:Python_ROOT_DIR}\Library"
-          # ${env:OMPROOT} = "${env:Python_ROOT_DIR}\Library"
+          ${env:OMPROOT} = "${env:Python_ROOT_DIR}\Library"
           # Write-Output ${env:MKLROOT}
           # Write-Output ${env:OMPROOT}
           mkdir build_test
