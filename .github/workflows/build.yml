@@ -64,12 +64,25 @@ jobs:
           cmake --build . -j 2
           cmake --install . --prefix "D:\a\gtest"
 
+      - name: fix mkl for amd cpu (windows)
+        if: matrix.os == 'windows-latest'
+        env:
+          CC: clang
+          CXX: clang++
+        run: |
+          echo "int mkl_serv_intel_cpu_true() { return 1; }" > fixcpu.c
+          $CC -shared -fPIC -o libfixcpu.dll fixcpu.c -Wl,--output-def,libfixcpu.def
+          dlltool -dllname libfixcpu.dll -def libfixcpu.def -output-lib libfixcpu.lib
+          New-Item -Path "D:\a\fixcpu" -ItemType Directory
+          Copy-Item -Path libfixcpu.dll libfixcpu.lib -Destination "D:\a\fixcpu"
+
       - name: build test (serial, windows)
         if: matrix.parallel == 'serial' && matrix.os == 'windows-latest'
         env:
           CC: clang
           CXX: clang++
           GTEST_ROOT: D:\a\gtest
+          FIXCPU_ROOT: D:\a\fixcpu
         run: |
           Get-ChildItem -Path "${env:Python_ROOT_DIR}\Library\lib"
           Get-Content -Path "${env:Python_ROOT_DIR}\Lib\site-packages\intel_openmp-2024.1.0.dist-info\RECORD"

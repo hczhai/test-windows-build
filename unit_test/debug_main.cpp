@@ -23,7 +23,7 @@
 
 extern "C"
 {
-    int mkl_serv_intel_cpu_true() { return 1; }
+    int mkl_serv_intel_cpu_true();
 }
 
 using namespace std;
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     Random::fill<double>(mat3.data, mat3.size());
     cout << "3:" << mat3 << endl;
 
-    GMatrixFunctions<double>::multiply(mat, 0, mat2, 0, mat3, 1.0, 0.0);
+    // GMatrixFunctions<double>::multiply(mat, 0, mat2, 0, mat3, 1.0, 0.0);
     cout << "ok2" << endl;
     cout << SU2() << endl;
     return 0;
