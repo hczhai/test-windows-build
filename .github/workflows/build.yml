@@ -44,6 +44,11 @@ jobs:
           Invoke-WebRequest -Uri $file -OutFile "OpenBLAS-0.3.27-x64.zip"
           Expand-Archive -Path "OpenBLAS-0.3.27-x64.zip" -DestinationPath $env:BLAS_ROOT
   
+      - name: install requirements (windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          python -m pip install 'cmake>=3.19' ninja
+
       - name: Set up Clang (windows)
         uses: egor-tensin/setup-clang@v1
         if: matrix.os == 'windows-latest'
