@@ -41,9 +41,9 @@ jobs:
       - name: Download OpenBLAS
         if: matrix.os == 'windows-latest'
         run: |
-          $file = "https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.27/OpenBLAS-0.3.27-x86.zip"
-          Invoke-WebRequest -Uri $file -OutFile "OpenBLAS-0.3.27-x86.zip"
-          Expand-Archive -Path "OpenBLAS-0.3.27-x86.zip" -DestinationPath "D:\a\openblas"
+          $file = "https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.27/OpenBLAS-0.3.27-x64.zip"
+          Invoke-WebRequest -Uri $file -OutFile "OpenBLAS-0.3.27-x64.zip"
+          Expand-Archive -Path "OpenBLAS-0.3.27-x64.zip" -DestinationPath "D:\a\openblas"
           Get-ChildItem -Path "D:\a\openblas"
 
       - name: install requirements
