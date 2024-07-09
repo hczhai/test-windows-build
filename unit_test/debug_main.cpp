@@ -67,10 +67,10 @@ int main(int argc, char *argv[])
     vector<double> mat3(25);
     mat3[0] = 1, mat3[1] = 2;
 
-    dgemm("n", "n", &nx, &nx, &nx, &alpha, mat.data(),
-                        &nx, mat2.data(),
-                        &nx, &beta, mat3.data(),
-                        &nx);
+    // dgemm("n", "n", &nx, &nx, &nx, &alpha, mat.data(),
+    //                     &nx, mat2.data(),
+    //                     &nx, &beta, mat3.data(),
+    //                     &nx);
 
     // cout << "f:" << mat3 << endl;
 
