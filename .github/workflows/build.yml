@@ -57,7 +57,7 @@ jobs:
           echo 1
           Get-ChildItem -Path ".\googletest"
           echo 2
-          Get-ChildItem -Path ".\x64"
+          Get-ChildItem -Path ".\x64\Release"
           cmake --install . --prefix $env:GTEST_ROOT
 
       - name: 1
