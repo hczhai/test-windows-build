@@ -133,9 +133,9 @@ extern void LFNAME(sgels)(const char *trans, const MKL_INT *m, const MKL_INT *n,
 
 // matrix copy
 // mat [b] = mat [a]
-extern void LFNAME(slacpy)(const char *uplo, const int *m, const int *n,
-                           const float *a, const int *lda, float *b,
-                           const int *ldb);
+extern void LFNAME(slacpy)(const char *uplo, const MKL_INT *m, const MKL_INT *n,
+                           const float *a, const MKL_INT *lda, float *b,
+                           const MKL_INT *ldb);
 
 // vector scale
 // vector [sx] = float [sa] * vector [sx]
