@@ -46,7 +46,6 @@ jobs:
       - name: 1
         env:
           BLAS_ROOT: D:\a\openblas
-          PATH: D:\a\openblas
         run: |
           cd A
           Get-ChildItem
@@ -58,6 +57,8 @@ jobs:
           Get-ChildItem
           cd Release
           Get-ChildItem
+          $env:PATH = "${env:BLAS_ROOT}\bin;" + $env:PATH
+          echo $env:PATH
           ./MyProject.exe
 
       # - name: Set up Clang
