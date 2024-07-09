@@ -36,36 +36,45 @@ using namespace block2;
 
 int main(int argc, char *argv[])
 {
-    cout << "ok1" << endl;
-    shared_ptr<VectorAllocator<double>> d_alloc = make_shared<VectorAllocator<double>>();
-    GMatrix<double> mat(nullptr, 5, 5);
-    mat.data = d_alloc->allocate(mat.size());
-    Random::fill<double>(mat.data, mat.size());
-    cout << "1:" << mat << endl;
+    // cout << "ok1" << endl;
+    // shared_ptr<VectorAllocator<double>> d_alloc = make_shared<VectorAllocator<double>>();
+    // GMatrix<double> mat(nullptr, 5, 5);
+    // mat.data = d_alloc->allocate(mat.size());
+    // Random::fill<double>(mat.data, mat.size());
+    // cout << "1:" << mat << endl;
 
-    GMatrix<double> mat2(nullptr, 5, 5);
-    mat2.data = d_alloc->allocate(mat2.size());
-    Random::fill<double>(mat2.data, mat2.size());
-    cout << "2:" << mat2 << endl;
+    // GMatrix<double> mat2(nullptr, 5, 5);
+    // mat2.data = d_alloc->allocate(mat2.size());
+    // Random::fill<double>(mat2.data, mat2.size());
+    // cout << "2:" << mat2 << endl;
 
-    GMatrix<double> mat3(nullptr, 5, 5);
-    mat3.data = d_alloc->allocate(mat3.size());
-    Random::fill<double>(mat3.data, mat3.size());
-    cout << "3:" << mat3 << endl;
+    // GMatrix<double> mat3(nullptr, 5, 5);
+    // mat3.data = d_alloc->allocate(mat3.size());
+    // Random::fill<double>(mat3.data, mat3.size());
+    // cout << "3:" << mat3 << endl;
 
     cout << sizeof(long long int) << endl;
     long long int nx = 5;
     double alpha = 1.0, beta = 0.0;
 
-    dgemm("n", "n", &nx, &nx, &nx, &alpha, mat.data,
-                        &nx, mat2.data,
-                        &nx, &beta, mat3.data,
+    vector<double> mat(25);
+    mat[0] = 1, mat[1] = 2;
+
+    vector<double> mat2(25);
+    mat2[0] = 1, mat2[1] = 2;
+
+    vector<double> mat3(25);
+    mat3[0] = 1, mat3[1] = 2;
+
+    dgemm("n", "n", &nx, &nx, &nx, &alpha, mat.data(),
+                        &nx, mat2.data(),
+                        &nx, &beta, mat3.data(),
                         &nx);
 
-    cout << "f:" << mat3 << endl;
+    // cout << "f:" << mat3 << endl;
 
     // GMatrixFunctions<double>::multiply(mat, 0, mat2, 0, mat3, 1.0, 0.0);
     cout << "ok2" << endl;
-    cout << SU2() << endl;
+    // cout << SU2() << endl;
     return 0;
 }
