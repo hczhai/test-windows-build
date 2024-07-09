@@ -71,6 +71,9 @@ int main(int argc, char *argv[])
                         &nx, mat2.data(),
                         &nx, &beta, mat3.data(),
                         &nx);
+    
+    for (int i = 0; i < 25; i++)
+        cout << i << " " << mat3[i] << endl;
 
     // cout << "f:" << mat3 << endl;
 
