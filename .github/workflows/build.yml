@@ -61,7 +61,7 @@ jobs:
           echo 1
           llvm-dlltool -D libfixcpu.dll -d libfixcpu.def -l libfixcpu.lib
           echo 2
-          lld-link -dll -out:libfixcpu.dll fixcpu.o libfixcpu.lib -entry:DllMainCRTStartup
+          lld-link -dll -out:libfixcpu.dll fixcpu.o libfixcpu.lib -entry:DllMainCRTStartup -defaultlib:ucrt.lib
           echo 3
           # lld-link -dll -out:libfixcpu.dll -implib:libfixcpu.lib fixcpu.o
           # dlltool --dllname libfixcpu.dll --input-def libfixcpu.def --output-lib libfixcpu.lib
