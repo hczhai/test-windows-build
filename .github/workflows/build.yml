@@ -53,8 +53,8 @@ jobs:
           git clone  -b release-1.8.0 https://github.com/google/googletest.git
           cd googletest
           cmake -G "Visual Studio 17 2022" -S . -B .
-          cmake --build . -j 2 --config Release -DCPACK_BUILD_CONFIG=Release
-          Get-ChildItem -Path ".\Release" -Recurse
+          cmake --build . -j 2 --config Release
+          Get-ChildItem -Path ".\Release"
           cmake --install . --prefix $env:GTEST_ROOT
 
       - name: 1
