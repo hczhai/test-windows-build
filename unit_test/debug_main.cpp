@@ -24,15 +24,15 @@
 using namespace std;
 using namespace block2;
 
-extern "C" {
+// extern "C" {
 
-extern void dgemm(const char *transa, const char *transb,
-                        const long long int *m, const long long int *n, const long long int *k,
-                        const double *alpha, const double *a,
-                        const long long int *lda, const double *b,
-                        const long long int *ldb, const double *beta, double *c,
-                        const long long int *ldc) noexcept;
-}
+// extern void dgemm(const char *transa, const char *transb,
+//                         const long long int *m, const long long int *n, const long long int *k,
+//                         const double *alpha, const double *a,
+//                         const long long int *lda, const double *b,
+//                         const long long int *ldb, const double *beta, double *c,
+//                         const long long int *ldc) noexcept;
+// }
 
 int main(int argc, char *argv[])
 {
