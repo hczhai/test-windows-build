@@ -88,4 +88,5 @@ jobs:
         run: |
           cd build_test
           Get-ChildItem
+          ./block2.exe
           ./block2_tests.exe

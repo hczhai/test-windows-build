@@ -18,6 +18,7 @@
  *
  */
 
+#include "block2_core.hpp"
 #include <iostream>
 
 using namespace std;
@@ -25,6 +26,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
     cout << "ok" << endl;
+    cout << block2::SU2() << endl;
 
     return 0;
 }
