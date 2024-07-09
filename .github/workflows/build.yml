@@ -66,7 +66,7 @@ jobs:
           Get-WmiObject -Class Win32_Processor
           git clone  -b release-1.8.0 https://github.com/google/googletest.git
           cd googletest
-          cmake -G Ninja -S . -B . -DCMAKE_CXX_COMPILER=clang++
+          cmake -G Ninja -S . -B . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++
           cmake --build . -j 2
           cmake --install . --prefix "D:\a\gtest"
 
@@ -86,7 +86,7 @@ jobs:
           mkdir build_test
           cd build_test
           cmake --version
-          cmake -G Ninja -S .. -B . -DUSE_MKL=ON -DBUILD_TEST=ON -DLARGE_BOND=ON -DEXP_TMPL=NONE
+          cmake -G Ninja -S .. -B . -DCMAKE_BUILD_TYPE=Release -DUSE_MKL=ON -DBUILD_TEST=ON -DLARGE_BOND=ON -DEXP_TMPL=NONE
           cmake --build . -j 2
 
       - name: run test (serial, windows)
