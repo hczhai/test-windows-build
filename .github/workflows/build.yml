@@ -79,7 +79,6 @@ jobs:
           CXX: clang++
           GTEST_ROOT: D:\a\gtest
           BLAS_ROOT: D:\a\openblas
-          BLASROOT: D:\a\openblas\lib
         run: |
           # Get-ChildItem -Path "${env:Python_ROOT_DIR}\Library\lib"
           # Get-Content -Path "${env:Python_ROOT_DIR}\Lib\site-packages\intel_openmp-2024.1.0.dist-info\RECORD"
