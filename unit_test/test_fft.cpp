@@ -1,6 +1,7 @@
 
 #include "block2_core.hpp"
 #include <gtest/gtest.h>
+#include <iostream>
 
 using namespace block2;
 
@@ -13,6 +14,7 @@ class TestFFT : public ::testing::Test {
 
 TEST_F(TestFFT, TestFFT) {
     for (int i = 0; i < n_tests; i++) {
+        cout << i << endl;
         int n;
         if (i < n_tests * 50 / 100)
             n = Random::rand_int(0, 12);
