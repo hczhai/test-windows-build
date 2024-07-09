@@ -37,37 +37,13 @@ jobs:
 
       - name: Set up Clang
         uses: egor-tensin/setup-clang@v1
-
-      - name: fix mkl for amd cpu (windows)
+      
+      - name: Download OpenBLAS
         if: matrix.os == 'windows-latest'
         run: |
-          Set-Content -Path fixcpu.c -Value @"
-          #include <windows.h>
-          BOOL APIENTRY DllMain(HMODULE hModule,
-                                DWORD  ul_reason_for_call,
-                                LPVOID lpReserved) {
-              return TRUE;
-          }
-          
-          int mkl_serv_intel_cpu_true() { 
-              return 1; 
-          }
-          "@
-          Set-Content -Path libfixcpu.def -Value @"
-          EXPORTS
-              DllMain
-              mkl_serv_intel_cpu_true
-          "@
-          clang -c -o fixcpu.o fixcpu.c
-          echo 1
-          llvm-dlltool -D libfixcpu.dll -d libfixcpu.def -l libfixcpu.lib
-          echo 2
-          lld-link -dll -out:libfixcpu.dll fixcpu.o libfixcpu.lib -entry:DllMainCRTStartup -defaultlib:ucrt.lib
-          echo 3
-          # lld-link -dll -out:libfixcpu.dll -implib:libfixcpu.lib fixcpu.o
-          # dlltool --dllname libfixcpu.dll --input-def libfixcpu.def --output-lib libfixcpu.lib
-          New-Item -Path "D:\a\fixcpu" -ItemType Directory
-          Copy-Item -Path @('libfixcpu.dll', 'libfixcpu.lib') -Destination "D:\a\fixcpu"
+          $file = "https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.27/OpenBLAS-0.3.27-x64-64.zip"
+          Invoke-WebRequest -Uri $file -OutFile "OpenBLAS-0.3.27-x64-64.zip"
+          Expand-Archive -Path "OpenBLAS-0.3.27-x64-64.zip" -DestinationPath "D:\a\openblas"
 
       - name: install requirements
         env:
@@ -101,18 +77,18 @@ jobs:
           CC: clang
           CXX: clang++
           GTEST_ROOT: D:\a\gtest
-          FIXCPU_ROOT: D:\a\fixcpu
+          OpenBLAS_ROOT: D:\a\openblas
         run: |
-          Get-ChildItem -Path "${env:Python_ROOT_DIR}\Library\lib"
-          Get-Content -Path "${env:Python_ROOT_DIR}\Lib\site-packages\intel_openmp-2024.1.0.dist-info\RECORD"
-          ${env:MKLROOT} = "${env:Python_ROOT_DIR}\Library"
-          ${env:OMPROOT} = "${env:Python_ROOT_DIR}\Library"
-          Write-Output ${env:MKLROOT}
-          Write-Output ${env:OMPROOT}
+          # Get-ChildItem -Path "${env:Python_ROOT_DIR}\Library\lib"
+          # Get-Content -Path "${env:Python_ROOT_DIR}\Lib\site-packages\intel_openmp-2024.1.0.dist-info\RECORD"
+          # ${env:MKLROOT} = "${env:Python_ROOT_DIR}\Library"
+          # ${env:OMPROOT} = "${env:Python_ROOT_DIR}\Library"
+          # Write-Output ${env:MKLROOT}
+          # Write-Output ${env:OMPROOT}
           mkdir build_test
           cd build_test
           cmake --version
-          cmake -G Ninja -S .. -B . -DCMAKE_BUILD_TYPE=Release -DUSE_MKL=ON -DBUILD_TEST=ON -DLARGE_BOND=ON -DEXP_TMPL=NONE
+          cmake -G Ninja -S .. -B . -DCMAKE_BUILD_TYPE=Release -DUSE_MKL=OFF -DBUILD_TEST=ON -DLARGE_BOND=ON -DEXP_TMPL=NONE
           cmake --build . -j 2
 
       - name: run test (serial, windows)
