@@ -34,74 +34,85 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
-
-      - name: Set up Clang
-        uses: egor-tensin/setup-clang@v1
-        with:
-          version: latest
-          platform: x64
       
-      - name: Download OpenBLAS
-        if: matrix.os == 'windows-latest'
+      - name: 1
         run: |
-          $file = "https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.27/OpenBLAS-0.3.27-x64.zip"
-          Invoke-WebRequest -Uri $file -OutFile "OpenBLAS-0.3.27-x64.zip"
-          Expand-Archive -Path "OpenBLAS-0.3.27-x64.zip" -DestinationPath "D:\a\openblas"
-          Get-ChildItem -Path "D:\a\openblas"
-
-      - name: install requirements
-        env:
-          MKLROOT: ~/.local
-        run: |
-          python -m pip install pip build twine setuptools --upgrade
-          python -m pip install mkl==2024.1.0 mkl-include intel-openmp numpy 'cmake>=3.19' ninja pybind11==2.12.0
-
-      - name: install requirements (windows)
-        if: matrix.os == 'windows-latest'
-        run: |
-          python -m pip install mkl-devel==2024.1.0
-          python -m pip install intel-openmp==2024.1.0
-
-      - name: build gtest (windows)
-        if: matrix.os == 'windows-latest'
-        env:
-          CC: clang
-          CXX: clang++
-        run: |
-          Get-WmiObject -Class Win32_Processor
-          git clone  -b release-1.8.0 https://github.com/google/googletest.git
-          cd googletest
-          cmake -G Ninja -S . -B . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++
-          cmake --build . -j 2
-          cmake --install . --prefix "D:\a\gtest"
-
-      - name: build test (serial, windows)
-        if: matrix.parallel == 'serial' && matrix.os == 'windows-latest'
-        env:
-          CC: clang
-          CXX: clang++
-          GTEST_ROOT: D:\a\gtest
-          BLAS_ROOT: D:\a\openblas
-        run: |
-          # Get-ChildItem -Path "${env:Python_ROOT_DIR}\Library\lib"
-          # Get-Content -Path "${env:Python_ROOT_DIR}\Lib\site-packages\intel_openmp-2024.1.0.dist-info\RECORD"
-          # ${env:MKLROOT} = "${env:Python_ROOT_DIR}\Library"
-          ${env:OMPROOT} = "${env:Python_ROOT_DIR}\Library"
-          # Write-Output ${env:MKLROOT}
-          # Write-Output ${env:OMPROOT}
-          mkdir build_test
-          cd build_test
-          cmake --version
-          cmake -G Ninja -S .. -B . -DCMAKE_BUILD_TYPE=Release -DUSE_MKL=OFF -DBUILD_TEST=ON -DLARGE_BOND=ON -DEXP_TMPL=NONE
-          cmake --build . -j 2 -v
-
-      - name: run test (serial, windows)
-        if: matrix.parallel == 'serial' && matrix.os == 'windows-latest'
-        env:
-          OMP_NUM_THREADS: 1
-          OPENBLAS_NUM_THREADS: 1
-        run: |
-          cd build_test
+          cd A
           Get-ChildItem
-          ./block2.exe
-          # ./block2_tests.exe
+          echo 1
+          mkdir build
+          cd build
+          cmake -G "Visual Studio 17 2022" ..
+          cmake --build . --config Release
+          Get-ChildItem
+
+      # - name: Set up Clang
+      #   uses: egor-tensin/setup-clang@v1
+      #   with:
+      #     version: latest
+      #     platform: x64
+      
+      # - name: Download OpenBLAS
+      #   if: matrix.os == 'windows-latest'
+      #   run: |
+      #     $file = "https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.27/OpenBLAS-0.3.27-x64.zip"
+      #     Invoke-WebRequest -Uri $file -OutFile "OpenBLAS-0.3.27-x64.zip"
+      #     Expand-Archive -Path "OpenBLAS-0.3.27-x64.zip" -DestinationPath "D:\a\openblas"
+      #     Get-ChildItem -Path "D:\a\openblas"
+
+      # - name: install requirements
+      #   env:
+      #     MKLROOT: ~/.local
+      #   run: |
+      #     python -m pip install pip build twine setuptools --upgrade
+      #     python -m pip install mkl==2024.1.0 mkl-include intel-openmp numpy 'cmake>=3.19' ninja pybind11==2.12.0
+
+      # - name: install requirements (windows)
+      #   if: matrix.os == 'windows-latest'
+      #   run: |
+      #     python -m pip install mkl-devel==2024.1.0
+      #     python -m pip install intel-openmp==2024.1.0
+
+      # - name: build gtest (windows)
+      #   if: matrix.os == 'windows-latest'
+      #   env:
+      #     CC: clang
+      #     CXX: clang++
+      #   run: |
+      #     Get-WmiObject -Class Win32_Processor
+      #     git clone  -b release-1.8.0 https://github.com/google/googletest.git
+      #     cd googletest
+      #     cmake -G Ninja -S . -B . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++
+      #     cmake --build . -j 2
+      #     cmake --install . --prefix "D:\a\gtest"
+
+      # - name: build test (serial, windows)
+      #   if: matrix.parallel == 'serial' && matrix.os == 'windows-latest'
+      #   env:
+      #     CC: clang
+      #     CXX: clang++
+      #     GTEST_ROOT: D:\a\gtest
+      #     BLAS_ROOT: D:\a\openblas
+      #   run: |
+      #     # Get-ChildItem -Path "${env:Python_ROOT_DIR}\Library\lib"
+      #     # Get-Content -Path "${env:Python_ROOT_DIR}\Lib\site-packages\intel_openmp-2024.1.0.dist-info\RECORD"
+      #     # ${env:MKLROOT} = "${env:Python_ROOT_DIR}\Library"
+      #     ${env:OMPROOT} = "${env:Python_ROOT_DIR}\Library"
+      #     # Write-Output ${env:MKLROOT}
+      #     # Write-Output ${env:OMPROOT}
+      #     mkdir build_test
+      #     cd build_test
+      #     cmake --version
+      #     cmake -G Ninja -S .. -B . -DCMAKE_BUILD_TYPE=Release -DUSE_MKL=OFF -DBUILD_TEST=ON -DLARGE_BOND=ON -DEXP_TMPL=NONE
+      #     cmake --build . -j 2 -v
+
+      # - name: run test (serial, windows)
+      #   if: matrix.parallel == 'serial' && matrix.os == 'windows-latest'
+      #   env:
+      #     OMP_NUM_THREADS: 1
+      #     OPENBLAS_NUM_THREADS: 1
+      #   run: |
+      #     cd build_test
+      #     Get-ChildItem
+      #     ./block2.exe
+      #     # ./block2_tests.exe
