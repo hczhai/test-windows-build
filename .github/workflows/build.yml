@@ -55,6 +55,7 @@ jobs:
           "@
           Set-Content -Path libfixcpu.def -Value @"
           EXPORTS
+              DllMain
               mkl_serv_intel_cpu_true
           "@
           clang -c -o fixcpu.o fixcpu.c
