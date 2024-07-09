@@ -59,7 +59,7 @@ jobs:
           "@
           clang -c -o fixcpu.o fixcpu.c
           echo 1
-          llvm-dlltool -dllname libfixcpu.dll -d libfixcpu.def -l libfixcpu.lib
+          llvm-dlltool -D libfixcpu.dll -d libfixcpu.def -l libfixcpu.lib
           echo 2
           lld-link -dll -out:libfixcpu.dll fixcpu.o libfixcpu.lib
           echo 3
