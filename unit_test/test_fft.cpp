@@ -14,7 +14,6 @@ class TestFFT : public ::testing::Test {
 
 TEST_F(TestFFT, TestFFT) {
     for (int i = 0; i < n_tests; i++) {
-        cout << i << endl;
         int n;
         if (i < n_tests * 50 / 100)
             n = Random::rand_int(0, 12);
@@ -30,10 +29,10 @@ TEST_F(TestFFT, TestFFT) {
         fft.fft(arx.data(), n, true);
         dft.fft(arr.data(), n, true);
         for (int j = 0; j < n; j++)
-            ASSERT_TRUE(abs(arr[i] - arx[i]) < 1E-12 + 1E-5 * abs(arx[i]));
+            ASSERT_TRUE(abs(arr[j] - arx[j]) < 1E-12 + 1E-5 * abs(arx[j]));
         fft.fft(arx.data(), n, false);
         dft.fft(arr.data(), n, false);
         for (int j = 0; j < n; j++)
-            ASSERT_TRUE(abs(arr[i] - arx[i]) < 1E-12 + 1E-5 * abs(arx[i]));
+            ASSERT_TRUE(abs(arr[j] - arx[j]) < 1E-12 + 1E-5 * abs(arx[j]));
     }
 }
