@@ -54,7 +54,7 @@ jobs:
           cd googletest
           cmake -G "Visual Studio 17 2022" -S . -B .
           cmake --build . -j 2 --config Release
-          Get-ChildItem -Path ".\Release"
+          Get-ChildItem -Path ".\Release" -Recurse
           cmake --install . --prefix $env:GTEST_ROOT
 
       - name: 1
