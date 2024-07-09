@@ -42,7 +42,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           echo "int mkl_serv_intel_cpu_true() { return 1; }" > fixcpu.c
-          clang -shared -fPIC -o libfixcpu.dll fixcpu.c -Wl,--output-def,libfixcpu.def
+          clang -shared -fPIC -o libfixcpu.dll fixcpu.c '-Wl,--output-def,libfixcpu.def'
           dlltool -dllname libfixcpu.dll -def libfixcpu.def -output-lib libfixcpu.lib
           New-Item -Path "D:\a\fixcpu" -ItemType Directory
           Copy-Item -Path libfixcpu.dll libfixcpu.lib -Destination "D:\a\fixcpu"
