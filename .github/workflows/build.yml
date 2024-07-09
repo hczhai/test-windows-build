@@ -45,6 +45,9 @@ jobs:
           cmake -G "Visual Studio 17 2022" ..
           cmake --build . --config Release
           Get-ChildItem
+          cd Release
+          Get-ChildItem
+          ./MyProject.exe
 
       # - name: Set up Clang
       #   uses: egor-tensin/setup-clang@v1
