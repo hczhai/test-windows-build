@@ -20,9 +20,10 @@
 
 // #include "block2_core.hpp"
 #include <iostream>
+#include <vector>
 
 using namespace std;
-using namespace block2;
+// using namespace block2;
 
 extern "C" {
 
