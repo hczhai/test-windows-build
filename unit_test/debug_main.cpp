@@ -22,11 +22,16 @@
 #include <iostream>
 
 using namespace std;
+using namespace block2;
 
 int main(int argc, char *argv[]) {
-
-    cout << "ok" << endl;
-    cout << block2::SU2() << endl;
-
+    cout << "ok1" << endl;
+    shared_ptr<VectorAllocator<double>> d_alloc = make_shared<VectorAllocator<double>>();
+    GMatrix<double> mat(nullptr, 5, 5);
+    mat.data = d_alloc->allocate(mat.size());
+    Random::fill<double>(mat.data, mat.size());
+    cout << mat << endl;
+    cout << "ok2" << endl;
+    cout << SU2() << endl;
     return 0;
 }
