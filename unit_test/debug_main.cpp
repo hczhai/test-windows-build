@@ -28,11 +28,11 @@ using namespace std;
 extern "C" {
 
 extern void dgemm(const char *transa, const char *transb,
-                        const long long int *m, const long long int *n, const long long int *k,
+                        const int *m, const int *n, const int *k,
                         const double *alpha, const double *a,
-                        const long long int *lda, const double *b,
-                        const long long int *ldb, const double *beta, double *c,
-                        const long long int *ldc) noexcept;
+                        const int *lda, const double *b,
+                        const int *ldb, const double *beta, double *c,
+                        const int *ldc) noexcept;
 }
 
 int main(int argc, char *argv[])
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     // cout << "3:" << mat3 << endl;
 
     cout << sizeof(long long int) << endl;
-    long long int nx = 5;
+    int nx = 5;
     double alpha = 1.0, beta = 0.0;
 
     vector<double> mat(25);
