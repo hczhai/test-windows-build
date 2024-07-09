@@ -94,6 +94,9 @@ jobs:
 
       - name: run test (serial, windows)
         if: matrix.parallel == 'serial' && matrix.os == 'windows-latest'
+        env:
+          OMP_NUM_THREADS: 1
+          OPENBLAS_NUM_THREADS: 1
         run: |
           cd build_test
           Get-ChildItem
