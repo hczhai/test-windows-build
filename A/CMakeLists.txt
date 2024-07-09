@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 
+CMAKE_POLICY(SET CMP0074 NEW) # BLAS_ROOT
+
 project(MyProject)
 
-set(SOURCES
-    main.cpp
-)
+set(SOURCES main.cpp)
+FIND_PACKAGE(BLAS REQUIRED)
+FIND_PACKAGE(LAPACK REQUIRED)
+
+TARGET_LINK_LIBRARIES(MyProject PRIVATE ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
 
 add_executable(MyProject ${SOURCES})
