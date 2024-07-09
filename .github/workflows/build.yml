@@ -42,21 +42,21 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           Set-Content -Path fixcpu.c -Value @"
-            #include <windows.h>
-            BOOL APIENTRY DllMain(HMODULE hModule,
-                                  DWORD  ul_reason_for_call,
-                                  LPVOID lpReserved) {
-                return TRUE;
-            }
-            
-            int mkl_serv_intel_cpu_true() { 
-                return 1; 
-            }
-            "@
+          #include <windows.h>
+          BOOL APIENTRY DllMain(HMODULE hModule,
+                                DWORD  ul_reason_for_call,
+                                LPVOID lpReserved) {
+              return TRUE;
+          }
+          
+          int mkl_serv_intel_cpu_true() { 
+              return 1; 
+          }
+          "@
           Set-Content -Path libfixcpu.def -Value @"
-            EXPORTS
-                mkl_serv_intel_cpu_true
-            "@
+          EXPORTS
+              mkl_serv_intel_cpu_true
+          "@
           clang -c -o fixcpu.o fixcpu.c
           llvm-dlltool -d libfixcpu.def -l libfixcpu.lib
           lld-link -dll -out:libfixcpu.dll fixcpu.o libfixcpu.lib -entry:DllMainCRTStartup
