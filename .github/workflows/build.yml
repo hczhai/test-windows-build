@@ -43,7 +43,7 @@ jobs:
         run: |
           echo  "int mkl_serv_intel_cpu_true() { return 1; }" > fixcpu.c
           clang -c -o fixcpu.o fixcpu.c
-          lld-link -dll -out:libfixcpu.dll -implib:libfixcpu.lib fixcpu.o -def:libfixcpu.def
+          lld-link -dll -out:libfixcpu.dll -implib:libfixcpu.lib fixcpu.o
           # dlltool --dllname libfixcpu.dll --input-def libfixcpu.def --output-lib libfixcpu.lib
           New-Item -Path "D:\a\fixcpu" -ItemType Directory
           Copy-Item -Path @('libfixcpu.dll', 'libfixcpu.lib') -Destination "D:\a\fixcpu"
