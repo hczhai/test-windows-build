@@ -20,6 +20,13 @@
 
 #pragma once
 
+#include "core/allocator.hpp"
+#include "core/batch_gemm.hpp"
+#include "core/complex_matrix_functions.hpp"
 #include "core/fft.hpp"
+#include "core/fp_codec.hpp"
+#include "core/matrix_functions.hpp"
+#include "core/matrix.hpp"
 #include "core/prime.hpp"
+#include "core/threading.hpp"
 #include "core/utils.hpp"
