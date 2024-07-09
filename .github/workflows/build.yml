@@ -38,6 +38,18 @@ jobs:
       - name: Set up Clang
         uses: egor-tensin/setup-clang@v1
 
+      - name: fix mkl for amd cpu (windows)
+        if: matrix.os == 'windows-latest'
+        env:
+          CC: clang
+          CXX: clang++
+        run: |
+          echo "int mkl_serv_intel_cpu_true() { return 1; }" > fixcpu.c
+          ${env:CC} -shared -fPIC -o libfixcpu.dll fixcpu.c -Wl,--output-def,libfixcpu.def
+          dlltool -dllname libfixcpu.dll -def libfixcpu.def -output-lib libfixcpu.lib
+          New-Item -Path "D:\a\fixcpu" -ItemType Directory
+          Copy-Item -Path libfixcpu.dll libfixcpu.lib -Destination "D:\a\fixcpu"
+
       - name: install requirements
         env:
           MKLROOT: ~/.local
@@ -63,18 +75,6 @@ jobs:
           cmake -G Ninja -S . -B . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++
           cmake --build . -j 2
           cmake --install . --prefix "D:\a\gtest"
-
-      - name: fix mkl for amd cpu (windows)
-        if: matrix.os == 'windows-latest'
-        env:
-          CC: clang
-          CXX: clang++
-        run: |
-          echo "int mkl_serv_intel_cpu_true() { return 1; }" > fixcpu.c
-          $CC -shared -fPIC -o libfixcpu.dll fixcpu.c -Wl,--output-def,libfixcpu.def
-          dlltool -dllname libfixcpu.dll -def libfixcpu.def -output-lib libfixcpu.lib
-          New-Item -Path "D:\a\fixcpu" -ItemType Directory
-          Copy-Item -Path libfixcpu.dll libfixcpu.lib -Destination "D:\a\fixcpu"
 
       - name: build test (serial, windows)
         if: matrix.parallel == 'serial' && matrix.os == 'windows-latest'
