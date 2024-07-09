@@ -41,9 +41,26 @@ jobs:
       - name: fix mkl for amd cpu (windows)
         if: matrix.os == 'windows-latest'
         run: |
-          echo  "int mkl_serv_intel_cpu_true() { return 1; }" > fixcpu.c
+          Set-Content -Path fixcpu.c -Value @"
+            #include <windows.h>
+            BOOL APIENTRY DllMain(HMODULE hModule,
+                                  DWORD  ul_reason_for_call,
+                                  LPVOID lpReserved) {
+                return TRUE;
+            }
+            
+            int mkl_serv_intel_cpu_true() { 
+                return 1; 
+            }
+            "@
+          Set-Content -Path libfixcpu.def -Value @"
+            EXPORTS
+                mkl_serv_intel_cpu_true
+            "@
           clang -c -o fixcpu.o fixcpu.c
-          lld-link -dll -out:libfixcpu.dll -implib:libfixcpu.lib fixcpu.o
+          llvm-dlltool -d libfixcpu.def -l libfixcpu.lib
+          lld-link -dll -out:libfixcpu.dll fixcpu.o libfixcpu.lib -entry:DllMainCRTStartup
+          # lld-link -dll -out:libfixcpu.dll -implib:libfixcpu.lib fixcpu.o
           # dlltool --dllname libfixcpu.dll --input-def libfixcpu.def --output-lib libfixcpu.lib
           New-Item -Path "D:\a\fixcpu" -ItemType Directory
           Copy-Item -Path @('libfixcpu.dll', 'libfixcpu.lib') -Destination "D:\a\fixcpu"
