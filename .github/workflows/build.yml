@@ -64,7 +64,7 @@ jobs:
           Get-WmiObject -Class Win32_Processor
           git clone  -b release-1.8.0 https://github.com/google/googletest.git
           cd googletest
-          cmake -G Ninja -S . -B .
+          cmake -G Ninja -S . -B . -DCMAKE_CXX_COMPILER=msvc
           cmake --build . -j 2
           cmake --install . --prefix $env:GTEST_ROOT
 
