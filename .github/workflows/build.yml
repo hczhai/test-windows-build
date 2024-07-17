@@ -50,7 +50,11 @@ jobs:
           sed -i "/DUSE_MKL/c \                '-DUSE_MKL=OFF'," setup.py
           sed -i "/DUSE_MKL/a \                '-DFORCE_LIB_ABS_PATH=OFF'," setup.py
           Get-Content setup.py
-          cd 6r7hghtu8
+          cd ..
+          echo A/*.py
+          echo A\*.py
+          echo "A\*.py"
+          cd guthj
   
       - name: install requirements (windows)
         if: matrix.os == 'windows-latest'
