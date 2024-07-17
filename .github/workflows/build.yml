@@ -57,6 +57,9 @@ jobs:
           Get-ChildItem A/*.py
           Get-ChildItem A\*.py
           Get-ChildItem "A\*.py"
+          $rr = Get-ChildItem A/*.py
+          Write-Output "File found: $($rr.FullName)"
+          Write-Output "File found: $($rr[0].FullName)"
           cd guthj
   
       - name: install requirements (windows)
