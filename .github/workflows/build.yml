@@ -43,6 +43,14 @@ jobs:
           $file = "https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.27/OpenBLAS-0.3.27-x64.zip"
           Invoke-WebRequest -Uri $file -OutFile "OpenBLAS-0.3.27-x64.zip"
           Expand-Archive -Path "OpenBLAS-0.3.27-x64.zip" -DestinationPath $env:BLAS_ROOT
+          cd A
+          sed -i "/DUSE_MKL/a \                '-DOMP_LIB=OMP'," setup.py
+          sed -i "/mkl/d" setup.py
+          sed -i "/intel-openmp/d" setup.py
+          sed -i "/DUSE_MKL/c \                '-DUSE_MKL=OFF'," setup.py
+          sed -i "/DUSE_MKL/a \                '-DFORCE_LIB_ABS_PATH=OFF'," setup.py
+          Get-Content setup.py
+          cd 6r7hghtu8
   
       - name: install requirements (windows)
         if: matrix.os == 'windows-latest'
