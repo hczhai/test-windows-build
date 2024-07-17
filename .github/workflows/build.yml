@@ -54,6 +54,9 @@ jobs:
           echo A/*.py
           echo A\*.py
           echo "A\*.py"
+          Get-ChildItem A/*.py
+          Get-ChildItem A\*.py
+          Get-ChildItem "A\*.py"
           cd guthj
   
       - name: install requirements (windows)
