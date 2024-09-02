@@ -35,13 +35,16 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       
+      - name: 66
+        if: matrix.os == 'windows-latest'
+        run: |
+          Get-VSSetupInstance 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise' | Get-ChildItem -Recurse -Filter dumpbin.exe
+
       - name: Download OpenBLAS
         if: matrix.os == 'windows-latest'
         env:
           BLAS_ROOT: D:\a\openblas
         run: |
-          # Install-Module VSSetup -Scope AllUsers
-          Get-VSSetupInstance 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise' | Get-ChildItem -Recurse -Filter dumpbin.exe
           $file = "https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.27/OpenBLAS-0.3.27-x64.zip"
           Invoke-WebRequest -Uri $file -OutFile "OpenBLAS-0.3.27-x64.zip"
           Expand-Archive -Path "OpenBLAS-0.3.27-x64.zip" -DestinationPath $env:BLAS_ROOT
