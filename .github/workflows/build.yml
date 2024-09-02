@@ -41,6 +41,10 @@ jobs:
           Get-ChildItem 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC'
           $path = (Get-ChildItem 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC').FullName
           echo $path
+          echo $path[0]
+          $dumpbin = "$path[0]\bin\Hostx64\x64\dumpbin.exe"
+          echo $dumpbin
+          
 
       - name: Download OpenBLAS
         if: matrix.os == 'windows-latest'
