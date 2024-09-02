@@ -38,11 +38,9 @@ jobs:
       - name: 66
         if: matrix.os == 'windows-latest'
         run: |
-          Get-ChildItem 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC'
-          $path = (Get-ChildItem 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC').FullName
-          echo $path
-          echo $path[0]
-          $dumpbin = "$path[0]\bin\Hostx64\x64\dumpbin.exe"
+          # Get-ChildItem 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC'
+          $path = Get-ChildItem 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC'
+          $dumpbin = "$($path[0].FullName)\bin\Hostx64\x64\dumpbin.exe"
           echo $dumpbin
           
 
