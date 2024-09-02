@@ -38,8 +38,9 @@ jobs:
       - name: 66
         if: matrix.os == 'windows-latest'
         run: |
-          $path = Get-VSSetupInstance 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise' | Get-ChildItem -Recurse -Filter Hostx64.x64.dumpbin.exe
-          gci $path | select -expand FullName
+          Get-VSSetupInstance 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise' | Get-ChildItem -Recurse -Filter Hostx64.x64.dumpbin.exe
+          $path = (Get-VSSetupInstance 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise' | Get-ChildItem -Recurse -Filter Hostx64.x64.dumpbin.exe).FullName
+          echo $path
 
       - name: Download OpenBLAS
         if: matrix.os == 'windows-latest'
