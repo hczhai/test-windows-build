@@ -38,8 +38,8 @@ jobs:
       - name: 66
         if: matrix.os == 'windows-latest'
         run: |
-          Get-VSSetupInstance 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC' | Get-ChildItem
-          $path = (Get-VSSetupInstance 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC' | Get-ChildItem).FullName
+          Get-ChildItem 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC'
+          $path = (Get-ChildItem 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC').FullName
           echo $path
 
       - name: Download OpenBLAS
