@@ -59,7 +59,21 @@ jobs:
           tar xjf xbuildenv-0.26.3.tar.bz2
           ls -l xbuildenv/pyodide-root/packages/.libs/lib
 
+      - name: build gtest
+        env:
+          GTESTROOT: ~/gtest
+        run: |
+          source emsdk/emsdk_env.sh
+          git clone -b release-1.8.0 https://github.com/google/googletest
+          cd googletest
+          export GTEST_ROOT=$PWD/googletest/install
+          CC=emcc CXX=em++ emcmake cmake CMakeLists.txt -DCMAKE_INSTALL_PREFIX=${GTESTROOT} -Dgtest_disable_pthreads=ON
+          emmake make -j 4
+          emmake make install
+
       - name: build
+        env:
+          GTESTROOT: ~/gtest
         run: |
           source emsdk/emsdk_env.sh
           export BLAS_ROOT=$PWD/xbuildenv/pyodide-root/packages/.libs
