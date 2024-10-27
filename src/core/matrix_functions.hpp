@@ -308,11 +308,11 @@ inline void xgemm<double>(const char *transa, const char *transb,
     trans_t blis_transa, blis_transb;
     map_char_to_blis_trans(*transa, &blis_transa);
     map_char_to_blis_trans(*transb, &blis_transb);
-    return bli_dgemm(blis_transa, blis_transb, (dim_t)*m, (dim_t)*n, (dim_t)*k,
+    bli_dgemm(blis_transa, blis_transb, (dim_t)*m, (dim_t)*n, (dim_t)*k,
                      alpha, a, 1, (inc_t)*lda, b, 1, (inc_t)*ldb, beta, c, 1,
                      (inc_t)*ldc);
 #else
-    return FNAME(dgemm)(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c,
+    FNAME(dgemm)(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c,
                         ldc);
 #endif
 }
