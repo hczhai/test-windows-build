@@ -66,7 +66,7 @@ jobs:
           cd A
           mkdir build
           cd build
-          CC=emcc CXX=em++ emcmake cmake ..
+          CC=emcc CXX=em++ BLAS_ROOT=$PWD/xbuildenv/pyodide-root/packages/.libs emcmake cmake ..
           emmake make VERBOSE=1
           # emcc -O2 MyProject -o MyProject.js
           ls -l
