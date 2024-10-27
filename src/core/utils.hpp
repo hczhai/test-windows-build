@@ -66,6 +66,12 @@ namespace block2 {
 #define FRETT float
 #endif
 
+#ifdef __EMSCRIPTEN__
+#define WRETT int
+#else
+#define WRETT void
+#endif
+
 #ifdef _WIN32
 
 struct timeval {

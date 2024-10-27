@@ -43,7 +43,7 @@ jobs:
       
       - name: setup emscripten
         run: |
-          git clone https://github.com/emscripten-core/emsdk.git
+          git clone -b main https://github.com/emscripten-core/emsdk.git
           cd emsdk
           PYODIDE_EMSCRIPTEN_VERSION=$(pyodide config get emscripten_version)
           echo $PYODIDE_EMSCRIPTEN_VERSION
@@ -55,7 +55,7 @@ jobs:
 
       - name: download blas
         run: |
-          wget https://github.com/pyodide/pyodide/releases/download/0.26.3/xbuildenv-0.26.3.tar.bz2
+          wget -q https://github.com/pyodide/pyodide/releases/download/0.26.3/xbuildenv-0.26.3.tar.bz2
           tar xjf xbuildenv-0.26.3.tar.bz2
           ls -l xbuildenv/pyodide-root/packages/.libs/lib
 
@@ -65,7 +65,7 @@ jobs:
           export BLAS_ROOT=$PWD/xbuildenv/pyodide-root/packages/.libs
           mkdir build
           cd build
-          CC=emcc CXX=em++ cmake .. -DUSE_MKL=OFF -DEMSCRIPTEN=ON -DF77UNDERSCORE=ON -DBUILD_TEST=ON -DUSE_DMRG=OFF
+          CC=emcc CXX=em++ cmake .. -DUSE_MKL=OFF -DEMSCRIPTEN=ON -DF77UNDERSCORE=ON -DBUILD_TEST=ON -DUSE_DMRG=OFF -DCMAKE_BUILD_TYPE=Debug
           emmake make -j 4
           ls -l
           node block2.js
