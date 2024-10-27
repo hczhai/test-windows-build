@@ -68,4 +68,4 @@ jobs:
           CC=emcc CXX=em++ cmake .. -DUSE_MKL=OFF -DEMSCRIPTEN=ON -DF77UNDERSCORE=ON -DBUILD_TEST=ON -DUSE_DMRG=OFF
           emmake make VERBOSE=1
           ls -l
-          node MyProject.js
+          node block2.js
