@@ -746,7 +746,7 @@ IF (${BUILD_TEST})
     FILE(GLOB TSRCS unit_test/test_fft.cpp)
     MESSAGE(STATUS "TSRCS = ${TSRCS}")
 
-    IF ((NOT APPLE) AND (NOT WIN32))
+    IF ((NOT APPLE) AND (NOT WIN32) AND (NOT ${EMSCRIPTEN}))
         SET(OPT_FLAG ${OPT_FLAG} -fcompare-debug-second)
     ENDIF()
 
