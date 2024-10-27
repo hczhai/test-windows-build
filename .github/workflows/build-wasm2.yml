@@ -66,6 +66,6 @@ jobs:
           mkdir build
           cd build
           CC=emcc CXX=em++ cmake .. -DUSE_MKL=OFF -DEMSCRIPTEN=ON -DF77UNDERSCORE=ON -DBUILD_TEST=ON -DUSE_DMRG=OFF
-          emmake make VERBOSE=1
+          emmake make -j 4
           ls -l
           node block2.js
