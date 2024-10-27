@@ -50,7 +50,6 @@ jobs:
           ./emsdk install ${PYODIDE_EMSCRIPTEN_VERSION}
           ./emsdk activate ${PYODIDE_EMSCRIPTEN_VERSION}
           source ./emsdk_env.sh
-          ./em++ -v
           cd ..
           em++ -v
       
