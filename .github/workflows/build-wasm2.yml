@@ -2,12 +2,12 @@ name: build
 
 on:
   push:
-    branches: [ tbd2 ]
+    branches: [ master ]
     tags:
       - v*
       - p*
   pull_request:
-    branches: [ tbd2 ]
+    branches: [ master ]
 
   workflow_dispatch:
 
@@ -63,10 +63,9 @@ jobs:
         run: |
           source emsdk/emsdk_env.sh
           export BLAS_ROOT=$PWD/xbuildenv/pyodide-root/packages/.libs
-          cd A
           mkdir build
           cd build
-          CC=emcc CXX=em++ cmake ..
+          CC=emcc CXX=em++ cmake .. -DUSE_MKL=OFF -DEMSCRIPTEN=ON -DF77UNDERSCORE=ON -DBUILD_TEST=ON -DUSE_DMRG=OFF
           emmake make VERBOSE=1
           ls -l
           node MyProject.js
