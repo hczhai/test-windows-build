@@ -83,4 +83,4 @@ jobs:
               -DGTEST_ROOT=${GTESTROOT} -DUSE_DMRG=OFF -DCMAKE_BUILD_TYPE=Debug
           emmake make -j 4
           ls -l
-          node block2.js
+          node block2_tests.js
