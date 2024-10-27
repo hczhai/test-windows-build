@@ -2,12 +2,12 @@ name: build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ tbd ]
     tags:
       - v*
       - p*
   pull_request:
-    branches: [ master ]
+    branches: [ tbd ]
 
   workflow_dispatch:
 
