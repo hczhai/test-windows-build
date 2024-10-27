@@ -291,14 +291,14 @@ inline void map_char_to_blis_trans(char trans, trans_t *blis_trans) {
 #endif
 
 template <typename FL>
-inline WRETT xgemm(const char *transa, const char *transb, const MKL_INT *m,
+inline void xgemm(const char *transa, const char *transb, const MKL_INT *m,
                   const MKL_INT *n, const MKL_INT *k, const FL *alpha,
                   const FL *a, const MKL_INT *lda, const FL *b,
                   const MKL_INT *ldb, const FL *beta, FL *c,
                   const MKL_INT *ldc) noexcept;
 
 template <>
-inline WRETT xgemm<double>(const char *transa, const char *transb,
+inline void xgemm<double>(const char *transa, const char *transb,
                           const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
                           const double *alpha, const double *a,
                           const MKL_INT *lda, const double *b,
@@ -318,7 +318,7 @@ inline WRETT xgemm<double>(const char *transa, const char *transb,
 }
 
 template <>
-inline WRETT xgemm<float>(const char *transa, const char *transb,
+inline void xgemm<float>(const char *transa, const char *transb,
                          const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
                          const float *alpha, const float *a, const MKL_INT *lda,
                          const float *b, const MKL_INT *ldb, const float *beta,
@@ -327,43 +327,43 @@ inline WRETT xgemm<float>(const char *transa, const char *transb,
     trans_t blis_transa, blis_transb;
     map_char_to_blis_trans(*transa, &blis_transa);
     map_char_to_blis_trans(*transb, &blis_transb);
-    return bli_sgemm(blis_transa, blis_transb, (dim_t)*m, (dim_t)*n, (dim_t)*k,
+    bli_sgemm(blis_transa, blis_transb, (dim_t)*m, (dim_t)*n, (dim_t)*k,
                      alpha, a, 1, (inc_t)*lda, b, 1, (inc_t)*ldb, beta, c, 1,
                      (inc_t)*ldc);
 #else
-    return FNAME(sgemm)(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c,
+    FNAME(sgemm)(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c,
                         ldc);
 #endif
 }
 
 template <typename FL>
-inline WRETT xscal(const MKL_INT *n, const FL *sa, FL *sx,
+inline void xscal(const MKL_INT *n, const FL *sa, FL *sx,
                   const MKL_INT *incx) noexcept;
 
 template <>
-inline WRETT xscal<double>(const MKL_INT *n, const double *sa, double *sx,
+inline void xscal<double>(const MKL_INT *n, const double *sa, double *sx,
                           const MKL_INT *incx) noexcept {
     FNAME(dscal)(n, sa, sx, incx);
 }
 
 template <>
-inline WRETT xscal<float>(const MKL_INT *n, const float *sa, float *sx,
+inline void xscal<float>(const MKL_INT *n, const float *sa, float *sx,
                          const MKL_INT *incx) noexcept {
     FNAME(sscal)(n, sa, sx, incx);
 }
 
 template <typename FL>
-inline WRETT xdscal(const MKL_INT *n, const typename GMatrix<FL>::FP *sa, FL *sx,
+inline void xdscal(const MKL_INT *n, const typename GMatrix<FL>::FP *sa, FL *sx,
                    const MKL_INT *incx) noexcept;
 
 template <>
-inline WRETT xdscal<double>(const MKL_INT *n, const double *sa, double *sx,
+inline void xdscal<double>(const MKL_INT *n, const double *sa, double *sx,
                            const MKL_INT *incx) noexcept {
     FNAME(dscal)(n, sa, sx, incx);
 }
 
 template <>
-inline WRETT xdscal<float>(const MKL_INT *n, const float *sa, float *sx,
+inline void xdscal<float>(const MKL_INT *n, const float *sa, float *sx,
                           const MKL_INT *incx) noexcept {
     FNAME(sscal)(n, sa, sx, incx);
 }
@@ -385,18 +385,18 @@ inline float xnrm2<float>(const MKL_INT *n, const float *x,
 }
 
 template <typename FL>
-inline WRETT xcopy(const MKL_INT *n, const FL *dx, const MKL_INT *incx, FL *dy,
+inline void xcopy(const MKL_INT *n, const FL *dx, const MKL_INT *incx, FL *dy,
                   const MKL_INT *incy) noexcept;
 
 template <>
-inline WRETT xcopy<double>(const MKL_INT *n, const double *dx,
+inline void xcopy<double>(const MKL_INT *n, const double *dx,
                           const MKL_INT *incx, double *dy,
                           const MKL_INT *incy) noexcept {
     FNAME(dcopy)(n, dx, incx, dy, incy);
 }
 
 template <>
-inline WRETT xcopy<float>(const MKL_INT *n, const float *dx, const MKL_INT *incx,
+inline void xcopy<float>(const MKL_INT *n, const float *dx, const MKL_INT *incx,
                          float *dy, const MKL_INT *incy) noexcept {
     FNAME(scopy)(n, dx, incx, dy, incy);
 }
@@ -419,48 +419,48 @@ inline float xdot<float>(const MKL_INT *n, const float *dx, const MKL_INT *incx,
 }
 
 template <typename FL>
-inline WRETT xaxpy(const MKL_INT *n, const FL *sa, const FL *sx,
+inline void xaxpy(const MKL_INT *n, const FL *sa, const FL *sx,
                   const MKL_INT *incx, FL *sy, const MKL_INT *incy) noexcept;
 
 template <>
-inline WRETT xaxpy<double>(const MKL_INT *n, const double *sa, const double *sx,
+inline void xaxpy<double>(const MKL_INT *n, const double *sa, const double *sx,
                           const MKL_INT *incx, double *sy,
                           const MKL_INT *incy) noexcept {
     FNAME(daxpy)(n, sa, sx, incx, sy, incy);
 }
 
 template <>
-inline WRETT xaxpy<float>(const MKL_INT *n, const float *sa, const float *sx,
+inline void xaxpy<float>(const MKL_INT *n, const float *sa, const float *sx,
                          const MKL_INT *incx, float *sy,
                          const MKL_INT *incy) noexcept {
     FNAME(saxpy)(n, sa, sx, incx, sy, incy);
 }
 
 template <typename FL>
-inline WRETT xlacpy(const char *uplo, const MKL_INT *m, const MKL_INT *n,
+inline void xlacpy(const char *uplo, const MKL_INT *m, const MKL_INT *n,
                    const FL *a, const MKL_INT *lda, FL *b, const MKL_INT *ldb);
 
 template <>
-inline WRETT xlacpy<double>(const char *uplo, const MKL_INT *m, const MKL_INT *n,
+inline void xlacpy<double>(const char *uplo, const MKL_INT *m, const MKL_INT *n,
                            const double *a, const MKL_INT *lda, double *b,
                            const MKL_INT *ldb) {
     LFNAME(dlacpy)(uplo, m, n, a, lda, b, ldb);
 }
 template <>
-inline WRETT xlacpy<float>(const char *uplo, const MKL_INT *m, const MKL_INT *n,
+inline void xlacpy<float>(const char *uplo, const MKL_INT *m, const MKL_INT *n,
                           const float *a, const MKL_INT *lda, float *b,
                           const MKL_INT *ldb) {
     LFNAME(slacpy)(uplo, m, n, a, lda, b, ldb);
 }
 
 template <typename FL>
-inline WRETT xgemv(const char *trans, const MKL_INT *m, const MKL_INT *n,
+inline void xgemv(const char *trans, const MKL_INT *m, const MKL_INT *n,
                   const FL *alpha, const FL *a, const MKL_INT *lda, const FL *x,
                   const MKL_INT *incx, const FL *beta, FL *y,
                   const MKL_INT *incy);
 
 template <>
-inline WRETT xgemv<double>(const char *trans, const MKL_INT *m, const MKL_INT *n,
+inline void xgemv<double>(const char *trans, const MKL_INT *m, const MKL_INT *n,
                           const double *alpha, const double *a,
                           const MKL_INT *lda, const double *x,
                           const MKL_INT *incx, const double *beta, double *y,
@@ -469,7 +469,7 @@ inline WRETT xgemv<double>(const char *trans, const MKL_INT *m, const MKL_INT *n
 }
 
 template <>
-inline WRETT xgemv<float>(const char *trans, const MKL_INT *m, const MKL_INT *n,
+inline void xgemv<float>(const char *trans, const MKL_INT *m, const MKL_INT *n,
                          const float *alpha, const float *a, const MKL_INT *lda,
                          const float *x, const MKL_INT *incx, const float *beta,
                          float *y, const MKL_INT *incy) {
@@ -477,134 +477,134 @@ inline WRETT xgemv<float>(const char *trans, const MKL_INT *m, const MKL_INT *n,
 }
 
 template <typename FL>
-inline WRETT xgesv(const MKL_INT *n, const MKL_INT *nrhs, FL *a,
+inline void xgesv(const MKL_INT *n, const MKL_INT *nrhs, FL *a,
                   const MKL_INT *lda, MKL_INT *ipiv, FL *b, const MKL_INT *ldb,
                   MKL_INT *info);
 
 template <>
-inline WRETT xgesv<double>(const MKL_INT *n, const MKL_INT *nrhs, double *a,
+inline void xgesv<double>(const MKL_INT *n, const MKL_INT *nrhs, double *a,
                           const MKL_INT *lda, MKL_INT *ipiv, double *b,
                           const MKL_INT *ldb, MKL_INT *info) {
     LFNAME(dgesv)(n, nrhs, a, lda, ipiv, b, ldb, info);
 }
 
 template <>
-inline WRETT xgesv<float>(const MKL_INT *n, const MKL_INT *nrhs, float *a,
+inline void xgesv<float>(const MKL_INT *n, const MKL_INT *nrhs, float *a,
                          const MKL_INT *lda, MKL_INT *ipiv, float *b,
                          const MKL_INT *ldb, MKL_INT *info) {
     LFNAME(sgesv)(n, nrhs, a, lda, ipiv, b, ldb, info);
 }
 
 template <typename FL>
-inline WRETT xgeqrf(const MKL_INT *m, const MKL_INT *n, FL *a,
+inline void xgeqrf(const MKL_INT *m, const MKL_INT *n, FL *a,
                    const MKL_INT *lda, FL *tau, FL *work, const MKL_INT *lwork,
                    MKL_INT *info);
 template <>
-inline WRETT xgeqrf<double>(const MKL_INT *m, const MKL_INT *n, double *a,
+inline void xgeqrf<double>(const MKL_INT *m, const MKL_INT *n, double *a,
                            const MKL_INT *lda, double *tau, double *work,
                            const MKL_INT *lwork, MKL_INT *info) {
     LFNAME(dgeqrf)(m, n, a, lda, tau, work, lwork, info);
 }
 template <>
-inline WRETT xgeqrf<float>(const MKL_INT *m, const MKL_INT *n, float *a,
+inline void xgeqrf<float>(const MKL_INT *m, const MKL_INT *n, float *a,
                           const MKL_INT *lda, float *tau, float *work,
                           const MKL_INT *lwork, MKL_INT *info) {
     LFNAME(sgeqrf)(m, n, a, lda, tau, work, lwork, info);
 }
 
 template <typename FL>
-inline WRETT xungqr(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k, FL *a,
+inline void xungqr(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k, FL *a,
                    const MKL_INT *lda, const FL *tau, FL *work,
                    const MKL_INT *lwork, MKL_INT *info);
 template <>
-inline WRETT xungqr<double>(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
+inline void xungqr<double>(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
                            double *a, const MKL_INT *lda, const double *tau,
                            double *work, const MKL_INT *lwork, MKL_INT *info) {
     LFNAME(dorgqr)(m, n, k, a, lda, tau, work, lwork, info);
 }
 template <>
-inline WRETT xungqr<float>(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
+inline void xungqr<float>(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
                           float *a, const MKL_INT *lda, const float *tau,
                           float *work, const MKL_INT *lwork, MKL_INT *info) {
     LFNAME(sorgqr)(m, n, k, a, lda, tau, work, lwork, info);
 }
 
 template <typename FL>
-inline WRETT xgelqf(const MKL_INT *m, const MKL_INT *n, FL *a,
+inline void xgelqf(const MKL_INT *m, const MKL_INT *n, FL *a,
                    const MKL_INT *lda, FL *tau, FL *work, const MKL_INT *lwork,
                    MKL_INT *info);
 template <>
-inline WRETT xgelqf<double>(const MKL_INT *m, const MKL_INT *n, double *a,
+inline void xgelqf<double>(const MKL_INT *m, const MKL_INT *n, double *a,
                            const MKL_INT *lda, double *tau, double *work,
                            const MKL_INT *lwork, MKL_INT *info) {
     LFNAME(dgelqf)(m, n, a, lda, tau, work, lwork, info);
 }
 template <>
-inline WRETT xgelqf<float>(const MKL_INT *m, const MKL_INT *n, float *a,
+inline void xgelqf<float>(const MKL_INT *m, const MKL_INT *n, float *a,
                           const MKL_INT *lda, float *tau, float *work,
                           const MKL_INT *lwork, MKL_INT *info) {
     LFNAME(sgelqf)(m, n, a, lda, tau, work, lwork, info);
 }
 
 template <typename FL>
-inline WRETT xunglq(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k, FL *a,
+inline void xunglq(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k, FL *a,
                    const MKL_INT *lda, const FL *tau, FL *work,
                    const MKL_INT *lwork, MKL_INT *info);
 template <>
-inline WRETT xunglq<double>(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
+inline void xunglq<double>(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
                            double *a, const MKL_INT *lda, const double *tau,
                            double *work, const MKL_INT *lwork, MKL_INT *info) {
     LFNAME(dorglq)(m, n, k, a, lda, tau, work, lwork, info);
 }
 template <>
-inline WRETT xunglq<float>(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
+inline void xunglq<float>(const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
                           float *a, const MKL_INT *lda, const float *tau,
                           float *work, const MKL_INT *lwork, MKL_INT *info) {
     LFNAME(sorglq)(m, n, k, a, lda, tau, work, lwork, info);
 }
 
 template <typename FL>
-inline WRETT xgetrf(const MKL_INT *m, const MKL_INT *n, FL *a,
+inline void xgetrf(const MKL_INT *m, const MKL_INT *n, FL *a,
                    const MKL_INT *lda, MKL_INT *ipiv, MKL_INT *info);
 
 template <>
-inline WRETT xgetrf<double>(const MKL_INT *m, const MKL_INT *n, double *a,
+inline void xgetrf<double>(const MKL_INT *m, const MKL_INT *n, double *a,
                            const MKL_INT *lda, MKL_INT *ipiv, MKL_INT *info) {
     LFNAME(dgetrf)(m, n, a, lda, ipiv, info);
 }
 
 template <>
-inline WRETT xgetrf<float>(const MKL_INT *m, const MKL_INT *n, float *a,
+inline void xgetrf<float>(const MKL_INT *m, const MKL_INT *n, float *a,
                           const MKL_INT *lda, MKL_INT *ipiv, MKL_INT *info) {
     LFNAME(sgetrf)(m, n, a, lda, ipiv, info);
 }
 
 template <typename FL>
-inline WRETT xgetri(const MKL_INT *m, FL *a, const MKL_INT *lda, MKL_INT *ipiv,
+inline void xgetri(const MKL_INT *m, FL *a, const MKL_INT *lda, MKL_INT *ipiv,
                    FL *work, const MKL_INT *lwork, MKL_INT *info);
 
 template <>
-inline WRETT xgetri<double>(const MKL_INT *m, double *a, const MKL_INT *lda,
+inline void xgetri<double>(const MKL_INT *m, double *a, const MKL_INT *lda,
                            MKL_INT *ipiv, double *work, const MKL_INT *lwork,
                            MKL_INT *info) {
     LFNAME(dgetri)(m, a, lda, ipiv, work, lwork, info);
 }
 
 template <>
-inline WRETT xgetri<float>(const MKL_INT *m, float *a, const MKL_INT *lda,
+inline void xgetri<float>(const MKL_INT *m, float *a, const MKL_INT *lda,
                           MKL_INT *ipiv, float *work, const MKL_INT *lwork,
                           MKL_INT *info) {
     LFNAME(sgetri)(m, a, lda, ipiv, work, lwork, info);
 }
 
 template <typename FL>
-inline WRETT xgesvd(const char *jobu, const char *jobvt, const MKL_INT *m,
+inline void xgesvd(const char *jobu, const char *jobvt, const MKL_INT *m,
                    const MKL_INT *n, FL *a, const MKL_INT *lda,
                    typename GMatrix<FL>::FP *s, FL *u, const MKL_INT *ldu,
                    FL *vt, const MKL_INT *ldvt, FL *work, const MKL_INT *lwork,
                    MKL_INT *info);
 template <>
-inline WRETT xgesvd<double>(const char *jobu, const char *jobvt,
+inline void xgesvd<double>(const char *jobu, const char *jobvt,
                            const MKL_INT *m, const MKL_INT *n, double *a,
                            const MKL_INT *lda, double *s, double *u,
                            const MKL_INT *ldu, double *vt, const MKL_INT *ldvt,
@@ -613,7 +613,7 @@ inline WRETT xgesvd<double>(const char *jobu, const char *jobvt,
     (jobu, jobvt, m, n, a, lda, s, u, ldu, vt, ldvt, work, lwork, info);
 }
 template <>
-inline WRETT xgesvd<float>(const char *jobu, const char *jobvt, const MKL_INT *m,
+inline void xgesvd<float>(const char *jobu, const char *jobvt, const MKL_INT *m,
                           const MKL_INT *n, float *a, const MKL_INT *lda,
                           float *s, float *u, const MKL_INT *ldu, float *vt,
                           const MKL_INT *ldvt, float *work,
@@ -623,32 +623,32 @@ inline WRETT xgesvd<float>(const char *jobu, const char *jobvt, const MKL_INT *m
 }
 
 template <typename FL>
-inline WRETT xsyev(const char *jobz, const char *uplo, const MKL_INT *n, FL *a,
+inline void xsyev(const char *jobz, const char *uplo, const MKL_INT *n, FL *a,
                   const MKL_INT *lda, FL *w, FL *work, const MKL_INT *lwork,
                   MKL_INT *info);
 
 template <>
-inline WRETT xsyev<double>(const char *jobz, const char *uplo, const MKL_INT *n,
+inline void xsyev<double>(const char *jobz, const char *uplo, const MKL_INT *n,
                           double *a, const MKL_INT *lda, double *w,
                           double *work, const MKL_INT *lwork, MKL_INT *info) {
     LFNAME(dsyev)(jobz, uplo, n, a, lda, w, work, lwork, info);
 }
 
 template <>
-inline WRETT xsyev<float>(const char *jobz, const char *uplo, const MKL_INT *n,
+inline void xsyev<float>(const char *jobz, const char *uplo, const MKL_INT *n,
                          float *a, const MKL_INT *lda, float *w, float *work,
                          const MKL_INT *lwork, MKL_INT *info) {
     LFNAME(ssyev)(jobz, uplo, n, a, lda, w, work, lwork, info);
 }
 
 template <typename FL>
-inline WRETT xgels(const char *trans, const MKL_INT *m, const MKL_INT *n,
+inline void xgels(const char *trans, const MKL_INT *m, const MKL_INT *n,
                   const MKL_INT *nrhs, FL *a, const MKL_INT *lda, FL *b,
                   const MKL_INT *ldb, FL *work, const MKL_INT *lwork,
                   MKL_INT *info);
 
 template <>
-inline WRETT xgels<double>(const char *trans, const MKL_INT *m, const MKL_INT *n,
+inline void xgels<double>(const char *trans, const MKL_INT *m, const MKL_INT *n,
                           const MKL_INT *nrhs, double *a, const MKL_INT *lda,
                           double *b, const MKL_INT *ldb, double *work,
                           const MKL_INT *lwork, MKL_INT *info) {
@@ -656,7 +656,7 @@ inline WRETT xgels<double>(const char *trans, const MKL_INT *m, const MKL_INT *n
 }
 
 template <>
-inline WRETT xgels<float>(const char *trans, const MKL_INT *m, const MKL_INT *n,
+inline void xgels<float>(const char *trans, const MKL_INT *m, const MKL_INT *n,
                          const MKL_INT *nrhs, float *a, const MKL_INT *lda,
                          float *b, const MKL_INT *ldb, float *work,
                          const MKL_INT *lwork, MKL_INT *info) {
@@ -664,20 +664,20 @@ inline WRETT xgels<float>(const char *trans, const MKL_INT *m, const MKL_INT *n,
 }
 
 template <typename FL>
-inline WRETT xheev(const char *jobz, const char *uplo, const MKL_INT *n, FL *a,
+inline void xheev(const char *jobz, const char *uplo, const MKL_INT *n, FL *a,
                   const MKL_INT *lda, typename GMatrix<FL>::FP *w, FL *work,
                   const MKL_INT *lwork, typename GMatrix<FL>::FP *rwork,
                   MKL_INT *info);
 
 template <typename FL>
-inline WRETT xgeev(const char *jobvl, const char *jobvr, const MKL_INT *n, FL *a,
+inline void xgeev(const char *jobvl, const char *jobvr, const MKL_INT *n, FL *a,
                   const MKL_INT *lda, FL *w, FL *vl, const MKL_INT *ldvl,
                   FL *vr, const MKL_INT *ldvr, FL *work, const MKL_INT *lwork,
                   typename GMatrix<FL>::FP *rwork, MKL_INT *info);
 
 // w_imag will be in rwork
 template <>
-inline WRETT xgeev<double>(const char *jobvl, const char *jobvr,
+inline void xgeev<double>(const char *jobvl, const char *jobvr,
                           const MKL_INT *n, double *a, const MKL_INT *lda,
                           double *w, double *vl, const MKL_INT *ldvl,
                           double *vr, const MKL_INT *ldvr, double *work,
@@ -688,7 +688,7 @@ inline WRETT xgeev<double>(const char *jobvl, const char *jobvr,
 
 // w_imag will be in rwork
 template <>
-inline WRETT xgeev<float>(const char *jobvl, const char *jobvr, const MKL_INT *n,
+inline void xgeev<float>(const char *jobvl, const char *jobvr, const MKL_INT *n,
                          float *a, const MKL_INT *lda, float *w, float *vl,
                          const MKL_INT *ldvl, float *vr, const MKL_INT *ldvr,
                          float *work, const MKL_INT *lwork, float *rwork,
