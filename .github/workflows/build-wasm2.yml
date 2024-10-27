@@ -79,7 +79,8 @@ jobs:
           export BLAS_ROOT=$PWD/xbuildenv/pyodide-root/packages/.libs
           mkdir build
           cd build
-          CC=emcc CXX=em++ cmake .. -DUSE_MKL=OFF -DEMSCRIPTEN=ON -DF77UNDERSCORE=ON -DBUILD_TEST=ON -DUSE_DMRG=OFF -DCMAKE_BUILD_TYPE=Debug
+          CC=emcc CXX=em++ cmake .. -DUSE_MKL=OFF -DEMSCRIPTEN=ON -DF77UNDERSCORE=ON -DBUILD_TEST=ON \
+              -DGTEST_ROOT=${GTESTROOT} -DUSE_DMRG=OFF -DCMAKE_BUILD_TYPE=Debug
           emmake make -j 4
           ls -l
           node block2.js
