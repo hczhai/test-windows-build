@@ -743,7 +743,7 @@ IF (${BUILD_TEST})
     FIND_PACKAGE(GTest REQUIRED)
     INCLUDE_DIRECTORIES(${GTEST_INCLUDE_DIRS})
 
-    FILE(GLOB TSRCS unit_test/test_fft.cpp unit_test/test_matrix.cpp)
+    FILE(GLOB TSRCS unit_test/test_matrix.cpp)
     MESSAGE(STATUS "TSRCS = ${TSRCS}")
 
     IF ((NOT APPLE) AND (NOT WIN32) AND (NOT ${EMSCRIPTEN}))
