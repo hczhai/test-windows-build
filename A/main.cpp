@@ -7,7 +7,7 @@ using namespace std;
 extern "C"
 {
 
-    extern void dgemm(const char *transa, const char *transb,
+    extern void dgemm_(const char *transa, const char *transb,
                       const int *m, const int *n, const int *k,
                       const double *alpha, const double *a,
                       const int *lda, const double *b,
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     vector<double> mat3(25);
     mat3[0] = 1, mat3[1] = 2;
 
-    dgemm("n", "n", &nx, &nx, &nx, &alpha, mat.data(),
+    dgemm_("n", "n", &nx, &nx, &nx, &alpha, mat.data(),
           &nx, mat2.data(),
           &nx, &beta, mat3.data(),
           &nx);
