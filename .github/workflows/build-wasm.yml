@@ -67,7 +67,7 @@ jobs:
           mkdir build
           cd build
           CC=emcc CXX=em++ cmake ..
-          emmake make
-          emcc -O2 MyProject.o -o MyProject.js
+          emmake make VERBOSE=1
+          emcc -O2 MyProject -o MyProject.js
           ls -l
           node MyProject.js
